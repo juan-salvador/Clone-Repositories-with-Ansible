@@ -1,0 +1,20 @@
+---
+# Define hosts
+- hosts: localhost
+# Define Variables
+  vars:
+    owner: juan
+    dir: /home/juan/Dev/
+# Include variables from file
+  vars_files:
+    - repositories.yml
+# lists of tasks
+  tasks:
+    - git:
+        repo: "git@bitbucket.org:{{ owner }}/{{ item }}.git"
+        accept_hostkey: yes
+        dest: "{{ dir }}{{ item }}" #destination
+        clone: yes
+        version: dev # branch
+      with_items:
+        - "{{ repository }}"

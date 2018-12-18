@@ -1,0 +1,17 @@
+---
+# Define Hosts
+- hosts: localhost
+# activate privilege
+  become: true
+# list tasks
+  tasks:
+    - name: Install apache 2
+      apt: 
+        name=apache2 
+        state=present 
+        update_cache=true
+      notify:
+        - "Reboot service web"
+  handlers:
+    - name: Reboot service web
+      service: name=apache2 state=restarted
